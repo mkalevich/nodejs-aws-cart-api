@@ -1,0 +1,13 @@
+# nodejs dependencies
+node_modules
+
+# possible file with npm errors
+npm-debug.log
+
+# docker files that don't needed to copy in an image
+Dockerfile
+.dockerignore
+
+# git repo and git ignore files don't needed in an image
+.git
+.gitignore
