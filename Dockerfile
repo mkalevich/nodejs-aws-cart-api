@@ -1,27 +1,23 @@
-# Stage 1
-FROM node:18-alpine AS builder
-
-WORKDIR /usr/src/app
-
-# Copy and install dependencies.
-COPY package*.json .
-RUN npm install
-
-# Copy the rest files.
-COPY . .
-
-# Build the application.
-RUN npm run build
-
-# Stage 2
+# Base image
 FROM node:18-alpine
 
+# Create app directory
 WORKDIR /usr/src/app
 
-COPY --from=builder /usr/src/app/dist .
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY package*.json ./
 
-USER node
+# Install app dependencies
+RUN npm install
 
+# Copy files
+COPY . .
+
+# Creates a "dist" folder with the build
+RUN npm run build
+
+# Expose the port
 EXPOSE 4000
 
-CMD [ "node", "main.js" ]
+# Start the server using the build
+CMD ["npm", "run", "start:prod"]
